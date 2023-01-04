@@ -1,22 +1,24 @@
-import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./features/authSlice";
-import {
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
+/* 
+ Reference on how to setup redux persist with redux toolkit :
+ https://blog.logrocket.com/persist-state-redux-persist-redux-toolkit-react/
+*/
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-const persistConfig = { key: "root", storage, version: 1 };
-const persistedReducer = persistReducer(persistConfig, authReducer);
+import authReducer from "./features/authSlice";
+import thunk from "redux-thunk";
 
-const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+const rootReducer = combineReducers({
+  auth: authReducer,
 });
-export default store;
+
+const persistConfig = { key: "root", storage, version: 1 };
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  devTools: process.env.NODE_ENV !== "production",
+  middleware: [thunk],
+});
+
+export const persistor = persistStore(store);

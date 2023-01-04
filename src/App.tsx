@@ -13,9 +13,9 @@ function App() {
       <CssBaseline />
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/home" element={<HomePage />} />
           <Route path="/profile/:userId" element={<ProfilePage />} />
         </Routes>
       </BrowserRouter>
