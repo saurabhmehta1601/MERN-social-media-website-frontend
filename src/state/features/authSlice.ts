@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IState {
-  displayMode: "light" | "dark";
   authToken: string | null;
   user: null | {
     id: string;
@@ -16,7 +15,6 @@ interface IState {
 }
 
 const initialState: IState = {
-  displayMode: "light",
   authToken: null,
   user: null,
   posts: [],
@@ -26,9 +24,6 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    toggleDisplayMode: (state) => {
-      state.displayMode = state.displayMode === "light" ? "dark" : "light";
-    },
     login: (state, action) => {
       state.authToken = action.payload.authToken;
       state.user = action.payload.user;
@@ -51,5 +46,4 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { login, logout, toggleDisplayMode, setFriends, setPosts } =
-  authSlice.actions;
+export const { login, logout, setFriends, setPosts } = authSlice.actions;

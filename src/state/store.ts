@@ -6,10 +6,12 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./features/authSlice";
+import displayReducer from "./features/displaySlice";
 import thunk from "redux-thunk";
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  display: displayReducer,
 });
 
 const persistConfig = { key: "root", storage, version: 1 };
