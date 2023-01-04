@@ -17,7 +17,7 @@ const LoginPage = () => {
         </Typography>
       </Stack>
       <Stack>
-        <Stack component="form" sx={{ mt: 4 }} spacing={4}>
+        <Stack component="form" sx={{ mt: 4 }} spacing={3}>
           <TextField label="Email Address"
             fullWidth id="email"
             name="email"
@@ -40,6 +40,10 @@ const LoginPage = () => {
         <Link component={RouterLink} to="/forget-password"> Forget password?</Link>
         <Link component={RouterLink} to="/signup"> Don't have an account? Sign Up</Link>
       </Stack>
+      <Typography variant="body2" textAlign="center" sx={{ mt: 6, mb: 1 }}>
+        Copyright &copy; 2021 Gitgram.org
+      </Typography>
+
     </Container >
   )
 }
