@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IState {
-  authToken: string | null;
+  token: string | null;
   user: null | {
     id: string;
     firstName: string;
@@ -15,7 +15,7 @@ interface IState {
 }
 
 const initialState: IState = {
-  authToken: null,
+  token: null,
   user: null,
   posts: [],
 };
@@ -25,12 +25,12 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      state.authToken = action.payload.authToken;
+      state.token = action.payload.token;
       state.user = action.payload.user;
     },
     logout: (state) => {
       state.user = null;
-      state.authToken = null;
+      state.token = null;
     },
     setFriends: (state, action) => {
       if (state.user) {
