@@ -3,6 +3,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import Container from "@mui/material/Container"
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import React from 'react'
+import SignupForm from './SignupForm'
 
 const LoginPage = () => {
   const theme = useTheme()
@@ -17,49 +18,9 @@ const LoginPage = () => {
         </Typography>
       </Stack>
       <Stack>
-        <Stack component="form" sx={{ mt: 4 }} spacing={4}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <TextField label="First Name"
-                fullWidth id="email"
-                name="email"
-                autoComplete='email'
-                required={true}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <TextField label="Last Name"
-                fullWidth id="email"
-                name="email"
-                autoComplete='email'
-                required={true}
-              />
-            </Grid>
-
-          </Grid>
-          <TextField
-            label="Email Address"
-            type="email"
-            fullWidth
-            required={true} />
-          <TextField
-            label="Password"
-            type="password"
-            fullWidth
-            required={true} />
-          <TextField
-            label="location"
-            fullWidth
-            required={true} />
-          <TextField
-            label="occupation"
-            fullWidth
-            required={true} />
-
-        </Stack>
+        {/* SIGN UP FORM */}
+        <SignupForm />
       </Stack>
-      <Button variant="contained" fullWidth sx={{ mt: 6 }}> Sign Up</Button>
       <Box sx={{ mt: 3 }}>
         <Link component={RouterLink} to="/login" > Already have an account? Sign in .</Link>
       </Box>
