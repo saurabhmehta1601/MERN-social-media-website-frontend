@@ -1,9 +1,12 @@
 import React from 'react'
-import { Stack, Grid, TextField, Button, Box } from "@mui/material"
+import { Stack, Grid, TextField, Button, Box, Typography, Paper } from "@mui/material"
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 import * as yup from "yup"
 import { Formik, FormikProps } from 'formik'
 import Dropzone from 'react-dropzone'
+import { grey } from '@mui/material/colors';
 
 interface ISignupFormValues {
     firstName: String,
@@ -12,7 +15,7 @@ interface ISignupFormValues {
     password: String,
     location: String,
     occupation: String,
-    picture: String
+    picture: File | null
 }
 
 const signupValidationSchema = yup.object().shape({
@@ -28,7 +31,7 @@ const signupValidationSchema = yup.object().shape({
 
     occupation: yup.string().required('required').min(3, "Occupation must be at least 3 characters long").max(20, "Occupation must be at most 20 characters long"),
 
-    picture: yup.string().required('required')
+    picture: yup.mixed().required('required')
 
 })
 
@@ -39,7 +42,7 @@ const initialSignupValues: ISignupFormValues = {
     password: '',
     location: '',
     occupation: '',
-    picture: ''
+    picture: null
 }
 
 const SignupForm = () => {
@@ -177,20 +180,53 @@ const SignupForm = () => {
                         setFieldValue("picture", acceptedFiles[0])
                     }}>
                     {({ getRootProps, getInputProps }) => (
-                        <Box {...getRootProps()} sx={{
-                            border: "2px solid black", '&:hover': {
-                                cursor: 'pointer'
-                            }
-                        }} p={1}>
-                            <input {...getInputProps()} />
+                        <Paper elevation={3}>
+                            <Box {...getRootProps()}
+                                sx={{
+                                    '&:hover': {
+                                        cursor: 'pointer'
+                                    }
+                                }}
+                                p={1} >
+                                <input {...getInputProps()} name="picture" />
 
-                        </Box>
+                                {values.picture ?
+                                    <>
+                                        <Stack direction="row" justifyContent="center" p={2} >
+                                            <img
+                                                width="128px"
+                                                height="128px"
+                                                src={URL.createObjectURL(values.picture)}
+                                                alt={values.picture.name}
+                                            />
+                                        </Stack>
+
+                                        <Stack direction="row" justifyContent="space-between">
+                                            <Typography variant="body1" color="textSecondary" px={1} >
+                                                {values.picture.name}
+                                            </Typography>
+                                            <EditOutlinedIcon />
+                                        </Stack>
+                                    </>
+                                    :
+                                    <>
+                                        <Stack direction="row" justifyContent="center" p={2}>
+                                            <AddPhotoAlternateIcon sx={{ fontSize: '4rem' }} htmlColor={grey[600]} />
+                                        </Stack>
+                                        <Typography variant='body1' color="textSecondary" textAlign="center">
+                                            Upload a profile picture
+                                        </Typography>
+                                    </>
+                                }
+                            </Box>
+                        </Paper>
                     )}
                 </Dropzone>
                 <Button variant="contained" fullWidth > Sign Up</Button>
             </Stack>
-        )}
-    </Formik>)
+        )
+        }
+    </Formik >)
 }
 
 export default SignupForm
