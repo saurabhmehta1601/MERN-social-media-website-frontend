@@ -4,18 +4,22 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 import * as yup from "yup"
-import { Formik, FormikProps } from 'formik'
+import { Formik, FormikHelpers, FormikProps } from 'formik'
 import Dropzone from 'react-dropzone'
 import { grey } from '@mui/material/colors';
+import axios from "axios"
+import { useAppDispatch } from '../../hooks/redux';
+import { login } from '../../state/features/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 interface ISignupFormValues {
-    firstName: String,
-    lastName: String,
-    email: String,
-    password: String,
-    location: String,
-    occupation: String,
-    picture: File | null
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    location: string,
+    occupation: string,
+    profilePicture: File | null
 }
 
 const signupValidationSchema = yup.object().shape({
@@ -31,7 +35,7 @@ const signupValidationSchema = yup.object().shape({
 
     occupation: yup.string().required('required').min(3, "Occupation must be at least 3 characters long").max(20, "Occupation must be at most 20 characters long"),
 
-    picture: yup.mixed().required('required')
+    profilePicture: yup.mixed().required('required')
 
 })
 
@@ -42,14 +46,45 @@ const initialSignupValues: ISignupFormValues = {
     password: '',
     location: '',
     occupation: '',
-    picture: null
+    profilePicture: null
 }
 
 const SignupForm = () => {
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+
     const handleSignupFormSubmit = async (
         values: ISignupFormValues,
-        onSubmitProps: any
+        onSubmitProps: FormikHelpers<ISignupFormValues>
     ) => {
+        try {
+            const formData = new FormData()
+
+            formData.append("firstName", values.firstName)
+            formData.append("lastName", values.lastName)
+            formData.append("email", values.email)
+            formData.append("password", values.password)
+            formData.append("location", values.location)
+            formData.append("occupation", values.occupation)
+            if (values.profilePicture)
+                formData.append("profilePicture", values.profilePicture.name)
+
+            const signupResponse = await axios.post("http://localhost:8000/auth/register", formData, {
+                headers: {
+                    'Content-type': "multipart/form-data"
+                }
+            })
+            if (signupResponse.status === 201) {
+                const { token, user } = signupResponse.data
+                console.log("token is", token)
+                console.log("user is", user)
+                dispatch(login({ token, user }))
+                navigate("/")
+            }
+
+        } catch (error) {
+
+        }
 
     }
     return (<Formik
@@ -64,12 +99,14 @@ const SignupForm = () => {
             handleBlur,
             handleChange,
             setFieldValue,
+            isSubmitting,
+            handleSubmit
         }: FormikProps<ISignupFormValues>) => (
-            <Stack component="form" sx={{ mt: 4 }} spacing={2}>
+            <Stack component="form" sx={{ mt: 4 }} spacing={2} onSubmit={handleSubmit} encType="multipart/form-data">
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
                         <TextField
-                            label="first name"
+                            label="First Name"
                             name="firstName"
                             value={values.firstName}
                             onChange={handleChange}
@@ -88,7 +125,7 @@ const SignupForm = () => {
 
                     <Grid item xs={12} md={6}>
                         <TextField
-                            label="last name"
+                            label="Last Name"
                             name="lastName"
                             value={values.lastName}
                             onChange={handleChange}
@@ -106,7 +143,7 @@ const SignupForm = () => {
                     </Grid>
                 </Grid>
                 <TextField
-                    label="email address"
+                    label="Email Address"
                     name="email"
                     value={values.email}
                     onChange={handleChange}
@@ -122,7 +159,7 @@ const SignupForm = () => {
                     fullWidth
                 />
                 <TextField
-                    label="new password"
+                    label="New Password"
                     type="password"
                     name="password"
                     value={values.password}
@@ -139,7 +176,7 @@ const SignupForm = () => {
                     fullWidth
                 />
                 <TextField
-                    label="location"
+                    label="Location"
                     name="location"
                     value={values.location}
                     onChange={handleChange}
@@ -155,7 +192,7 @@ const SignupForm = () => {
                     fullWidth
                 />
                 <TextField
-                    label="occupation"
+                    label="Occupation"
                     name="occupation"
                     value={values.occupation}
                     onChange={handleChange}
@@ -177,7 +214,7 @@ const SignupForm = () => {
                     }}
                     multiple={false}
                     onDrop={(acceptedFiles) => {
-                        setFieldValue("picture", acceptedFiles[0])
+                        setFieldValue("profilePicture", acceptedFiles[0])
                     }}>
                     {({ getRootProps, getInputProps }) => (
                         <Paper elevation={3}>
@@ -188,22 +225,22 @@ const SignupForm = () => {
                                     }
                                 }}
                                 p={1} >
-                                <input {...getInputProps()} name="picture" />
+                                <input {...getInputProps()} name="profilePicture" />
 
-                                {values.picture ?
+                                {values.profilePicture ?
                                     <>
                                         <Stack direction="row" justifyContent="center" p={2} >
                                             <img
                                                 width="128px"
                                                 height="128px"
-                                                src={URL.createObjectURL(values.picture)}
-                                                alt={values.picture.name}
+                                                src={URL.createObjectURL(values.profilePicture)}
+                                                alt={values.profilePicture.name}
                                             />
                                         </Stack>
 
                                         <Stack direction="row" justifyContent="space-between">
                                             <Typography variant="body1" color="textSecondary" px={1} >
-                                                {values.picture.name}
+                                                {values.profilePicture.name}
                                             </Typography>
                                             <EditOutlinedIcon />
                                         </Stack>
@@ -222,7 +259,7 @@ const SignupForm = () => {
                         </Paper>
                     )}
                 </Dropzone>
-                <Button variant="contained" fullWidth > Sign Up</Button>
+                <Button variant="contained" fullWidth disabled={isSubmitting} type={'submit'} > Sign Up</Button>
             </Stack>
         )
         }
