@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Container } from '@mui/material'
 import Navbar from '../../features/navbar'
-import { useSelector } from 'react-redux'
 import { RootState } from '../../state/store'
 import { Navigate } from 'react-router-dom'
+import { useAppSelector } from '../../hooks/redux'
 
 const HomePage = () => {
-  const userAuth = useSelector((state: RootState) => state.auth)
+  const { token, user } = useAppSelector((state: RootState) => state.auth)
+  if (!token || !user) return (<Navigate to="/login" />)
 
-
-  if (!userAuth.token || !userAuth.user) return <Navigate to='/login' replace={true} />
 
 
   return (<Container maxWidth="lg">

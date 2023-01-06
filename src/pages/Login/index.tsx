@@ -1,11 +1,16 @@
-import { Avatar, Box, Button, Checkbox, FormControlLabel, Link, Stack, TextField, Typography, useTheme } from '@mui/material'
-import { Link as RouterLink } from 'react-router-dom'
+import { Avatar, Link, Stack, Typography } from '@mui/material'
+import { Link as RouterLink, Navigate } from 'react-router-dom'
 import Container from "@mui/material/Container"
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import React from 'react'
+import LoginForm from './LoginForm'
+import { useAppSelector } from '../../hooks/redux'
 
 const LoginPage = () => {
-  const theme = useTheme()
+  const { token, user } = useAppSelector(state => state.auth)
+  if (token && user) return (<Navigate to="/login" />)
+
+
   return (
     <Container component="main" maxWidth="xs" >
       <Stack sx={{ marginTop: 8 }} alignItems="center" >
@@ -16,30 +21,13 @@ const LoginPage = () => {
           Sign In
         </Typography>
       </Stack>
-      <Stack>
-        <Stack component="form" sx={{ mt: 4 }} spacing={3}>
-          <TextField label="Email Address"
-            fullWidth id="email"
-            name="email"
-            autoComplete='email'
-            required={true}
-          />
-          <TextField
-            label="Password"
-            type="password"
-            fullWidth
-            required={true} />
-        </Stack>
-      </Stack>
-      <FormControlLabel label="Remember me"
-        control={<Checkbox value="remember" />}
-        sx={{ mt: 3 }}
-      />
-      <Button variant="contained" fullWidth sx={{ mt: 1 }}> Sign In</Button>
+      {/* LOGIN FORM */}
+      <LoginForm />
       <Stack direction="row" justifyContent="space-between" sx={{ mt: 3 }}>
         <Link component={RouterLink} to="/forget-password"> Forget password?</Link>
         <Link component={RouterLink} to="/signup"> Don't have an account? Sign Up</Link>
       </Stack>
+
       <Typography variant="body2" textAlign="center" sx={{ mt: 6, mb: 1 }}>
         Copyright &copy; 2021 Gitgram.org
       </Typography>
