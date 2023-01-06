@@ -87,183 +87,184 @@ const SignupForm = () => {
         }
 
     }
-    return (<Formik
-        onSubmit={handleSignupFormSubmit}
-        initialValues={initialSignupValues}
-        validationSchema={signupValidationSchema}
-    >
-        {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleChange,
-            setFieldValue,
-            isSubmitting,
-            handleSubmit
-        }: FormikProps<ISignupFormValues>) => (
-            <Stack component="form" sx={{ mt: 4 }} spacing={2} onSubmit={handleSubmit} encType="multipart/form-data">
-                <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            label="First Name"
-                            name="firstName"
-                            value={values.firstName}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={Boolean(touched.firstName) && Boolean(errors.firstName)}
-                            helperText={<>
-                                {
-                                    (Boolean(touched.firstName) && Boolean(errors.firstName)) ?
-                                        errors.firstName : ""
-                                }
-                            </>}
-                            required={true}
-                            fullWidth
-                        />
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            label="Last Name"
-                            name="lastName"
-                            value={values.lastName}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={Boolean(touched.lastName) && Boolean(errors.lastName)}
-                            helperText={<>
-                                {
-                                    (Boolean(touched.lastName) && Boolean(errors.lastName)) ?
-                                        errors.lastName : ""
-                                }
-                            </>}
-                            required={true}
-                            fullWidth
-                        />
-                    </Grid>
-                </Grid>
-                <TextField
-                    label="Email Address"
-                    name="email"
-                    value={values.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={Boolean(touched.email) && Boolean(errors.email)}
-                    helperText={<>
-                        {
-                            (Boolean(touched.email) && Boolean(errors.email)) ?
-                                errors.email : ""
-                        }
-                    </>}
-                    required={true}
-                    fullWidth
-                />
-                <TextField
-                    label="New Password"
-                    type="password"
-                    name="password"
-                    value={values.password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={Boolean(touched.password) && Boolean(errors.password)}
-                    helperText={<>
-                        {
-                            (Boolean(touched.password) && Boolean(errors.password)) ?
-                                errors.password : ""
-                        }
-                    </>}
-                    required={true}
-                    fullWidth
-                />
-                <TextField
-                    label="Location"
-                    name="location"
-                    value={values.location}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={Boolean(touched.location) && Boolean(errors.location)}
-                    helperText={<>
-                        {
-                            (Boolean(touched.location) && Boolean(errors.location)) ?
-                                errors.location : ""
-                        }
-                    </>}
-                    required={true}
-                    fullWidth
-                />
-                <TextField
-                    label="Occupation"
-                    name="occupation"
-                    value={values.occupation}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={Boolean(touched.occupation) && Boolean(errors.occupation)}
-                    helperText={<>
-                        {
-                            (Boolean(touched.occupation) && Boolean(errors.occupation)) ?
-                                errors.occupation : ""
-                        }
-                    </>}
-                    required={true}
-                    fullWidth
-                />
-
-                <Dropzone
-                    accept={{
-                        'image/*': ['.jpeg', '.jpg', '.png', '.webp']
-                    }}
-                    multiple={false}
-                    onDrop={(acceptedFiles) => {
-                        setFieldValue("profilePicture", acceptedFiles[0])
-                    }}>
-                    {({ getRootProps, getInputProps }) => (
-                        <Paper elevation={3}>
-                            <Box {...getRootProps()}
-                                sx={{
-                                    '&:hover': {
-                                        cursor: 'pointer'
+    return (
+        <Formik
+            onSubmit={handleSignupFormSubmit}
+            initialValues={initialSignupValues}
+            validationSchema={signupValidationSchema}
+        >
+            {({
+                values,
+                errors,
+                touched,
+                handleBlur,
+                handleChange,
+                setFieldValue,
+                isSubmitting,
+                handleSubmit
+            }: FormikProps<ISignupFormValues>) => (
+                <Stack component="form" sx={{ mt: 4 }} spacing={2} onSubmit={handleSubmit} encType="multipart/form-data">
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={6}>
+                            <TextField
+                                label="First Name"
+                                name="firstName"
+                                value={values.firstName}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                error={Boolean(touched.firstName) && Boolean(errors.firstName)}
+                                helperText={<>
+                                    {
+                                        (Boolean(touched.firstName) && Boolean(errors.firstName)) ?
+                                            errors.firstName : ""
                                     }
-                                }}
-                                p={1} >
-                                <input {...getInputProps()} name="profilePicture" />
+                                </>}
+                                required={true}
+                                fullWidth
+                            />
+                        </Grid>
 
-                                {values.profilePicture ?
-                                    <>
-                                        <Stack direction="row" justifyContent="center" p={2} >
-                                            <img
-                                                width="128px"
-                                                height="128px"
-                                                src={URL.createObjectURL(values.profilePicture)}
-                                                alt={values.profilePicture.name}
-                                            />
-                                        </Stack>
+                        <Grid item xs={12} md={6}>
+                            <TextField
+                                label="Last Name"
+                                name="lastName"
+                                value={values.lastName}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                error={Boolean(touched.lastName) && Boolean(errors.lastName)}
+                                helperText={<>
+                                    {
+                                        (Boolean(touched.lastName) && Boolean(errors.lastName)) ?
+                                            errors.lastName : ""
+                                    }
+                                </>}
+                                required={true}
+                                fullWidth
+                            />
+                        </Grid>
+                    </Grid>
+                    <TextField
+                        label="Email Address"
+                        name="email"
+                        value={values.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={Boolean(touched.email) && Boolean(errors.email)}
+                        helperText={<>
+                            {
+                                (Boolean(touched.email) && Boolean(errors.email)) ?
+                                    errors.email : ""
+                            }
+                        </>}
+                        required={true}
+                        fullWidth
+                    />
+                    <TextField
+                        label="New Password"
+                        type="password"
+                        name="password"
+                        value={values.password}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={Boolean(touched.password) && Boolean(errors.password)}
+                        helperText={<>
+                            {
+                                (Boolean(touched.password) && Boolean(errors.password)) ?
+                                    errors.password : ""
+                            }
+                        </>}
+                        required={true}
+                        fullWidth
+                    />
+                    <TextField
+                        label="Location"
+                        name="location"
+                        value={values.location}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={Boolean(touched.location) && Boolean(errors.location)}
+                        helperText={<>
+                            {
+                                (Boolean(touched.location) && Boolean(errors.location)) ?
+                                    errors.location : ""
+                            }
+                        </>}
+                        required={true}
+                        fullWidth
+                    />
+                    <TextField
+                        label="Occupation"
+                        name="occupation"
+                        value={values.occupation}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={Boolean(touched.occupation) && Boolean(errors.occupation)}
+                        helperText={<>
+                            {
+                                (Boolean(touched.occupation) && Boolean(errors.occupation)) ?
+                                    errors.occupation : ""
+                            }
+                        </>}
+                        required={true}
+                        fullWidth
+                    />
 
-                                        <Stack direction="row" justifyContent="space-between">
-                                            <Typography variant="body1" color="textSecondary" px={1} >
-                                                {values.profilePicture.name}
+                    <Dropzone
+                        accept={{
+                            'image/*': ['.jpeg', '.jpg', '.png', '.webp']
+                        }}
+                        multiple={false}
+                        onDrop={(acceptedFiles) => {
+                            setFieldValue("profilePicture", acceptedFiles[0])
+                        }}>
+                        {({ getRootProps, getInputProps }) => (
+                            <Paper elevation={3}>
+                                <Box {...getRootProps()}
+                                    sx={{
+                                        '&:hover': {
+                                            cursor: 'pointer'
+                                        }
+                                    }}
+                                    p={1} >
+                                    <input {...getInputProps()} name="profilePicture" />
+
+                                    {values.profilePicture ?
+                                        <>
+                                            <Stack direction="row" justifyContent="center" p={2} >
+                                                <img
+                                                    width="128px"
+                                                    height="128px"
+                                                    src={URL.createObjectURL(values.profilePicture)}
+                                                    alt={values.profilePicture.name}
+                                                />
+                                            </Stack>
+
+                                            <Stack direction="row" justifyContent="space-between">
+                                                <Typography variant="body1" color="textSecondary" px={1} >
+                                                    {values.profilePicture.name}
+                                                </Typography>
+                                                <EditOutlinedIcon />
+                                            </Stack>
+                                        </>
+                                        :
+                                        <>
+                                            <Stack direction="row" justifyContent="center" p={2}>
+                                                <AddPhotoAlternateIcon sx={{ fontSize: '4rem' }} htmlColor={grey[600]} />
+                                            </Stack>
+                                            <Typography variant='body1' color="textSecondary" textAlign="center">
+                                                Upload a profile picture
                                             </Typography>
-                                            <EditOutlinedIcon />
-                                        </Stack>
-                                    </>
-                                    :
-                                    <>
-                                        <Stack direction="row" justifyContent="center" p={2}>
-                                            <AddPhotoAlternateIcon sx={{ fontSize: '4rem' }} htmlColor={grey[600]} />
-                                        </Stack>
-                                        <Typography variant='body1' color="textSecondary" textAlign="center">
-                                            Upload a profile picture
-                                        </Typography>
-                                    </>
-                                }
-                            </Box>
-                        </Paper>
-                    )}
-                </Dropzone>
-                <Button variant="contained" fullWidth disabled={isSubmitting} type={'submit'} > Sign Up</Button>
-            </Stack>
-        )
-        }
-    </Formik >)
+                                        </>
+                                    }
+                                </Box>
+                            </Paper>
+                        )}
+                    </Dropzone>
+                    <Button variant="contained" fullWidth disabled={isSubmitting} type={'submit'} > Sign Up</Button>
+                </Stack>
+            )
+            }
+        </Formik >)
 }
 
 export default SignupForm
