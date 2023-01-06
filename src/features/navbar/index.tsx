@@ -33,31 +33,34 @@ const Navbar = () => {
                     </Typography>
 
                     <Stack direction="row" spacing={1} alignItems="center">
-                        <Link component={RouterLink} to="/explore" underline="none" color="inherit" >
-                            <IconButton >
-                                <ExploreIcon htmlColor='white'
+                        <Stack direction="row" spacing={1} mr={3}>
+                            <Link component={RouterLink} to="/explore" underline="none" color="inherit" >
+                                <IconButton >
+                                    <ExploreIcon htmlColor='white'
+                                        fontSize={isNonMobileScreen ? 'large' : 'medium'}
+                                    />
+                                </IconButton>
+                            </Link>
+                            <Link component={RouterLink} to="/create-post" underline="none" color="inherit" >
+                                <IconButton >
+                                    <PostAddIcon htmlColor='white'
+                                        fontSize={isNonMobileScreen ? 'large' : 'medium'}
+                                    />
+                                </IconButton>
+                            </Link>
+
+                            <IconButton onClick={handleLogout}>
+                                <LogoutIcon htmlColor='white'
                                     fontSize={isNonMobileScreen ? 'large' : 'medium'}
                                 />
                             </IconButton>
-                        </Link>
-                        <Link component={RouterLink} to="/create-post" underline="none" color="inherit" >
-                            <IconButton >
-                                <PostAddIcon htmlColor='white'
-                                    fontSize={isNonMobileScreen ? 'large' : 'medium'}
-                                />
-                            </IconButton>
-                        </Link>
+
+                        </Stack>
 
                         <Avatar
                             src={user ? "http://localhost:8000/uploads/" + user.profilePicture : ""}
                             alt={user ? user.firstName + " " + user.lastName : ""}
                         />
-
-                        <IconButton onClick={handleLogout}>
-                            <LogoutIcon htmlColor='white'
-                                fontSize={isNonMobileScreen ? 'large' : 'medium'}
-                            />
-                        </IconButton>
 
                     </Stack>
 
