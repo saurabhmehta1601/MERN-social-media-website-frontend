@@ -6,11 +6,17 @@ import Box from '@mui/material/Box';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@mui/material/Link';
 import Avatar from '@mui/material/Avatar';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import LogoutIcon from '@mui/icons-material/Logout';
+import IconButton from '@mui/material/IconButton';
+import { logout } from '../../state/features/authSlice';
 
 const Navbar = () => {
     const { user } = useAppSelector(state => state.auth)
-    const theme = useTheme()
+    const dispatch = useAppDispatch()
+    const handleLogout = () => {
+        dispatch(logout())
+    }
     return (
         <Box p={2} sx={{ backgroundColor: indigo[500], color: grey[200], }} >
             <Container maxWidth={"md"}>
@@ -23,6 +29,10 @@ const Navbar = () => {
                         <Link component={RouterLink} to="/create-post" underline="none" color="inherit" >
                             <Button variant="contained">Create Post</Button>
                         </Link>
+
+                        <IconButton onClick={handleLogout}>
+                            <LogoutIcon htmlColor='white' />
+                        </IconButton>
 
                         <Avatar src={user ? "http://localhost:8000/uploads/" + user.profilePicture : ""} />
 

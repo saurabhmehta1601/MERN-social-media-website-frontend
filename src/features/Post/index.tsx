@@ -13,7 +13,6 @@ import CardActions from "@mui/material/CardActions"
 import FavoriteIcon from "@mui/icons-material/Favorite"
 import Collapse from '@mui/material/Collapse'
 import { grey, red } from '@mui/material/colors'
-import { Box } from '@mui/material'
 import ShareIcon from '@mui/icons-material/Share';
 import { styled } from '@mui/material/styles'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';

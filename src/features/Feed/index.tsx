@@ -5,7 +5,7 @@ import Post from '../Post'
 
 const Feed = () => {
     return (
-        <Container maxWidth="xs" sx={{ p: 2 }}>
+        <Container maxWidth="sm" sx={{ p: 2 }}>
             <Stack spacing={2}>
                 <Post />
                 <Post />
