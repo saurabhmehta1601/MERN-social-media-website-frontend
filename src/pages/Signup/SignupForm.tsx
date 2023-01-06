@@ -67,7 +67,7 @@ const SignupForm = () => {
             formData.append("location", values.location)
             formData.append("occupation", values.occupation)
             if (values.profilePicture)
-                formData.append("profilePicture", values.profilePicture.name)
+                formData.append("profilePicture", values.profilePicture)
 
             const signupResponse = await axios.post("http://localhost:8000/auth/register", formData, {
                 headers: {

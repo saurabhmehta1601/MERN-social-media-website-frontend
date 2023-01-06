@@ -5,6 +5,7 @@ interface IUser {
   firstName: string;
   lastName: string;
   friends: string[];
+  profilePicture: string;
 }
 
 interface IState {

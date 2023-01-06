@@ -1,9 +1,9 @@
 import React from 'react'
-import { Container } from '@mui/material'
-import Navbar from '../../features/navbar'
+import Navbar from '../../features/Navbar'
 import { RootState } from '../../state/store'
-import { Navigate, useNavigate } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
 import { useAppSelector } from '../../hooks/redux'
+import Feed from '../../features/Feed'
 
 const HomePage = () => {
   const navigate = useNavigate()
@@ -12,9 +12,10 @@ const HomePage = () => {
     if (!token || !user) navigate('/login')
   }, [token, user, navigate])
 
-  return (<Container maxWidth="lg">
+  return (<>
     <Navbar />
-  </Container>
+    <Feed />
+  </>
   )
 }
 
