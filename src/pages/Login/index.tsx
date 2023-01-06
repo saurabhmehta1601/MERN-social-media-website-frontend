@@ -1,5 +1,5 @@
 import { Avatar, Link, Stack, Typography } from '@mui/material'
-import { Link as RouterLink, Navigate } from 'react-router-dom'
+import { Link as RouterLink, Navigate, useNavigate } from 'react-router-dom'
 import Container from "@mui/material/Container"
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import React from 'react'
@@ -7,8 +7,11 @@ import LoginForm from './LoginForm'
 import { useAppSelector } from '../../hooks/redux'
 
 const LoginPage = () => {
+  const navigate = useNavigate()
   const { token, user } = useAppSelector(state => state.auth)
-  if (token && user) return (<Navigate to="/login" />)
+  React.useEffect(() => {
+    if (token && user) navigate('/')
+  }, [token, user, navigate])
 
 
   return (
