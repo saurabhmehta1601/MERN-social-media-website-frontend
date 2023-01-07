@@ -21,6 +21,15 @@ interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
 }
 
+interface IProps {
+    title: string,
+    description: string,
+    authorName: string,
+    authorProfilePicture: string,
+    postImage: string,
+    postedOn: string,
+}
+
 const ExpandMore = styled((props: ExpandMoreProps) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -32,7 +41,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     }),
 }));
 
-const Post = () => {
+const Post = ({ authorName, authorProfilePicture, postedOn, title, description, postImage }: IProps) => {
     const [isPostLiked, setIsPostLiked] = React.useState(true)
     const [isPostExpanded, setIsPostExpanded] = React.useState(false)
     return (
@@ -40,13 +49,13 @@ const Post = () => {
             <CardHeader
                 avatar={
                     <Avatar
-                        alt="Remy Sharp"
-                        src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
+                        alt={authorName}
+                        src={authorProfilePicture}
                     />
                 }
-                title={"John Doe"}
+                title={authorName}
                 titleTypographyProps={{ variant: "h6" }}
-                subheader="September 14, 2016"
+                subheader={postedOn}
                 action={
                     <IconButton aria-label="settings">
                         <MoreVertIcon />
@@ -55,11 +64,11 @@ const Post = () => {
             />
             <CardMedia component="img"
                 alt="post image"
-                src="https://images.unsplash.com/photo-1523287562758-66c7fc58967f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                src={postImage}
             />
             <CardContent>
                 <Typography variant="h6" color="text.primary" >
-                    Git and Github For Beginners
+                    {title}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
@@ -82,8 +91,8 @@ const Post = () => {
             </CardActions>
 
             <Collapse in={isPostExpanded} timeout="auto" unmountOnExit>
-                <Typography paragraph p={1}>
-                    Git is something everyone knows about
+                <Typography paragraph p={1} >
+                    {description}
                 </Typography>
             </Collapse>
 

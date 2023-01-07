@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { grey, indigo } from '@mui/material/colors';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
