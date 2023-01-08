@@ -12,15 +12,18 @@ import IconButton from '@mui/material/IconButton';
 import { logout } from '../../state/features/authSlice';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import ExploreIcon from '@mui/icons-material/Explore';
+import { useNavigate } from "react-router-dom"
 
 const Navbar = () => {
     const { user } = useAppSelector(state => state.auth)
     const theme = useTheme()
     const isNonMobileScreen = useMediaQuery(theme.breakpoints.up('sm'))
 
+    const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const handleLogout = () => {
         dispatch(logout())
+        navigate("/login")
     }
     return (
         <Box p={2} sx={{ backgroundColor: indigo[500], color: grey[200], }} >
