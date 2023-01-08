@@ -1,12 +1,24 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Avatar, Stack, Typography } from '@mui/material'
 import Container from "@mui/material/Container"
 import CreateIcon from '@mui/icons-material/Create'
 import CreatePostForm from './CreatePostForm'
+import Navbar from "../../features/Navbar"
+import { useAppSelector } from "../../hooks/redux"
+import { useNavigate } from "react-router-dom"
 
 const CreatePostPage = () => {
+  const { token, user } = useAppSelector(state => state.auth)
+  const navigate = useNavigate()
 
-  return (
+  useEffect(() => {
+    if (!token || !user) {
+      navigate("/login")
+    }
+  }, [])
+
+  return (<>
+    <Navbar />
     <Container component="main" maxWidth="xs" >
       <Stack sx={{ marginTop: 8 }} alignItems="center">
         <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
@@ -22,7 +34,7 @@ const CreatePostPage = () => {
         Copyright &copy; 2021 Gitgram.org
       </Typography>
     </Container >
-  )
+  </>)
 }
 
 export default CreatePostPage
