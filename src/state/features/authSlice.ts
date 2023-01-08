@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IUser {
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
   friends: string[];

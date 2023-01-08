@@ -1,4 +1,5 @@
 import { Avatar, Button, ListItem, ListItemAvatar, ListItemButton, ListItemText } from '@mui/material'
+import Typography from '@mui/material/Typography'
 import React from 'react'
 
 interface IUser {
@@ -14,12 +15,35 @@ interface IProps {
 }
 
 const FollowSuggestionItem = ({ followStatus, user }: IProps) => {
+
+    const toggleFollowStatus = () => {
+
+    }
+
     return (
         <ListItem
             secondaryAction={
                 followStatus === "follow" ?
-                    <Button variant="contained" color="primary" size="small"> Follow </Button> :
-                    <Button variant="outlined" color="primary" size="small">Following</Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        onClick={toggleFollowStatus}
+                    >
+                        <Typography variant="body2" fontFamily={"Rubik"} fontWeight="500">
+                            Follow
+                        </Typography>
+                    </Button> :
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        size="small"
+                        onClick={toggleFollowStatus}
+                    >
+                        <Typography variant="body2" fontFamily={"Rubik"} fontWeight="500">
+                            Following
+                        </Typography>
+                    </Button>
             }
         >
             <ListItemButton>

@@ -13,18 +13,24 @@ interface IUser {
 
 const FollowSuggestionList = () => {
     const [allUsers, setAllUsers] = useState([])
-    const { token } = useAppSelector(state => state.auth)
+    const { token, user: authUser } = useAppSelector(state => state.auth)
+    console.log("authUser is ", authUser)
 
     useEffect(() => {
         const fetchAllUsers = async () => {
-            const fetchAllUsersResponse = await axios.get('http://localhost:8000/allusers', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
+            if (authUser) {
+                const fetchAllUsersResponse = await axios.get('http://localhost:8000/allusers', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                console.log("fetched users are ", fetchAllUsersResponse.data)
 
-            if (fetchAllUsersResponse.status === 200) {
-                setAllUsers(fetchAllUsersResponse.data)
+                if (fetchAllUsersResponse.status === 200) {
+                    const suggestedUsers = fetchAllUsersResponse.data.filter((user: IUser) => user._id !== authUser._id)
+                    setAllUsers(suggestedUsers)
+                }
+
             }
             else {
                 console.log("Error fetching users ")
@@ -37,7 +43,7 @@ const FollowSuggestionList = () => {
         <Container maxWidth="sm">
             <List>
                 {allUsers.map((user: IUser) => (
-                    <FollowSuggestionItem followStatus='follow' user={user} />
+                    <FollowSuggestionItem key={user._id} followStatus='follow' user={user} />
                 ))}
             </List>
         </Container>
