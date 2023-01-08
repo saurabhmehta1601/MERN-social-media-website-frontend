@@ -65,6 +65,7 @@ const Post = ({ authorName, authorProfilePicture, postedOn, title, description, 
             <CardMedia component="img"
                 alt="post image"
                 src={postImage}
+                sx={{ maxHeight: '250px', objectFit: 'contain' }}
             />
             <CardContent>
                 <Typography variant="h6" color="text.primary" >
