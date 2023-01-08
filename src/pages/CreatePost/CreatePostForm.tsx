@@ -1,5 +1,5 @@
 import React from 'react'
-import { Stack, Grid, TextField, Button, Box, Typography, Paper } from "@mui/material"
+import { Stack, TextField, Button, Box, Typography, Paper } from "@mui/material"
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
@@ -8,8 +8,8 @@ import { Formik, FormikHelpers, FormikProps } from 'formik'
 import Dropzone from 'react-dropzone'
 import { grey } from '@mui/material/colors';
 import axios from "axios"
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/redux';
 
 interface ICreatePostFormValues {
     title: string,
@@ -17,34 +17,30 @@ interface ICreatePostFormValues {
     postImage: File | null,
 }
 
-const signupValidationSchema = yup.object().shape({
+const createPostValidationSchema = yup.object().shape({
     title: yup.string().required('required').min(3, "Title must be at least 3 characters long").max(30, "Title must be at most 30 characters long"),
 
-    description: yup.string().required('required').min(6, "Description must be at least 6 characters long").max(100, "Description must be at most 100 characters long"),
+    description: yup.string().required('required').min(6, "Description must be at least 6 characters long").max(250, "Description must be at most 250 characters long"),
 
-    location: yup.string().required('required').min(3, "Location must be at least 3 characters long").max(20, "Location must be at most 20 characters long"),
-
-    occupation: yup.string().required('required').min(3, "Occupation must be at least 3 characters long").max(20, "Occupation must be at most 20 characters long"),
-
-    profilePicture: yup.mixed().required('required')
+    postImage: yup.mixed().required('required')
 
 })
 
-const initialSignupValues: ICreatePostFormValues = {
+const initialCreatePostValues: ICreatePostFormValues = {
     title: '',
     description: '',
     postImage: null
 }
 
-const createPostForm = () => {
-    const dispatch = useAppDispatch()
+const CreatePostForm = () => {
     const navigate = useNavigate()
-    const { user } = useAppSelector(state => state.auth)
+    const { token } = useAppSelector(state => state.auth)
 
-    const handleSignupFormSubmit = async (
+    const handleCreatePostFormSubmit = async (
         values: ICreatePostFormValues,
         onSubmitProps: FormikHelpers<ICreatePostFormValues>
     ) => {
+        console.log("form is submitted")
         try {
             const formData = new FormData()
 
@@ -52,14 +48,10 @@ const createPostForm = () => {
             formData.append("description", values.description)
             if (values.postImage)
                 formData.append("postImage", values.postImage)
-            if (user) {
-                formData.append("authorId", user.id)
-                formData.append("authorName", user.firstName + " " + user.lastName)
-                formData.append("authorProfilePicture", user.profilePicture)
-            }
             const createPostResponse = await axios.post("http://localhost:8000/posts/create", formData, {
                 headers: {
-                    'Content-type': "multipart/form-data"
+                    'Content-type': "multipart/form-data",
+                    Authorization: `Bearer ${token}`
                 }
             })
             if (createPostResponse.status === 201) {
@@ -67,15 +59,15 @@ const createPostForm = () => {
             }
 
         } catch (error) {
-
+            console.log(error);
         }
 
     }
     return (
         <Formik
-            onSubmit={handleSignupFormSubmit}
-            initialValues={initialSignupValues}
-            validationSchema={signupValidationSchema}
+            onSubmit={handleCreatePostFormSubmit}
+            initialValues={initialCreatePostValues}
+            validationSchema={createPostValidationSchema}
         >
             {({
                 values,
@@ -166,7 +158,7 @@ const createPostForm = () => {
                                                 <AddPhotoAlternateIcon sx={{ fontSize: '4rem' }} htmlColor={grey[600]} />
                                             </Stack>
                                             <Typography variant='body1' color="textSecondary" textAlign="center">
-                                                Upload a profile picture
+                                                Upload cover image for your post
                                             </Typography>
                                         </>
                                     }
@@ -178,7 +170,7 @@ const createPostForm = () => {
                 </Stack>
             )
             }
-        </Formik >)
+        </Formik>)
 }
 
-export default createPostForm 
+export default CreatePostForm 

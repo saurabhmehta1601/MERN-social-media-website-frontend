@@ -1,5 +1,5 @@
 import React from "react"
-import { Avatar,  Stack, Typography } from '@mui/material'
+import { Avatar, Stack, Typography } from '@mui/material'
 import Container from "@mui/material/Container"
 import CreateIcon from '@mui/icons-material/Create'
 import CreatePostForm from './CreatePostForm'
@@ -16,10 +16,8 @@ const CreatePostPage = () => {
           Create Post
         </Typography>
       </Stack>
-      <Stack>
-        {/* CRAEATE POST FORM */}
-        <CreatePostForm />
-      </Stack>
+      {/* CRAEATE POST FORM */}
+      <CreatePostForm />
       <Typography variant="body2" textAlign="center" sx={{ mt: 3, mb: 1 }}>
         Copyright &copy; 2021 Gitgram.org
       </Typography>
