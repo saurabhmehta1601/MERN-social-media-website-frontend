@@ -16,18 +16,22 @@ import { grey, red } from '@mui/material/colors'
 import ShareIcon from '@mui/icons-material/Share';
 import { styled } from '@mui/material/styles'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import axios from 'axios'
+import { useAppSelector } from '../../hooks/redux'
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
 }
 
 interface IProps {
+    _id: string
     title: string,
     description: string,
     authorName: string,
     authorProfilePicture: string,
     postImage: string,
     postedOn: string,
+    liked: boolean
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
@@ -41,9 +45,26 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     }),
 }));
 
-const Post = ({ authorName, authorProfilePicture, postedOn, title, description, postImage }: IProps) => {
-    const [isPostLiked, setIsPostLiked] = React.useState(true)
+const Post = ({ _id: postId, authorName, authorProfilePicture, postedOn, title, description, postImage, liked }: IProps) => {
+    const { token } = useAppSelector(state => state.auth)
+    const [isPostLiked, setIsPostLiked] = React.useState(liked)
     const [isPostExpanded, setIsPostExpanded] = React.useState(false)
+    const handleLikeButtonClick = async () => {
+        try {
+            await axios.patch('http://localhost:8000/posts/toggleIsLiked',
+                { postId },
+                {
+                    headers: {
+                        'Content-Type': "application/json",
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            )
+            setIsPostLiked(prev => !prev)
+        } catch (error) {
+            console.log("post like/dislike failed");
+        }
+    }
     return (
         <Card>
             <CardHeader
@@ -73,7 +94,7 @@ const Post = ({ authorName, authorProfilePicture, postedOn, title, description, 
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton onClick={() => setIsPostLiked(prev => !prev)} >
+                <IconButton onClick={handleLikeButtonClick} >
                     <FavoriteIcon sx={{ opacity: 1, color: isPostLiked ? 'red' : grey[500] }} />
                 </IconButton>
                 <IconButton >

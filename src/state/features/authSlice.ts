@@ -5,6 +5,7 @@ interface IUser {
   firstName: string;
   lastName: string;
   friends: string[];
+  following: string[];
   profilePicture: string;
 }
 

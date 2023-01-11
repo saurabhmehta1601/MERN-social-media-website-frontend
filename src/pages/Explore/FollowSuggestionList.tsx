@@ -9,12 +9,13 @@ interface IUser {
     firstName: string,
     lastName: string,
     profilePicture: string,
+    following: string[]
 }
 
 const FollowSuggestionList = () => {
     const [allUsers, setAllUsers] = useState([])
     const { token, user: authUser } = useAppSelector(state => state.auth)
-    console.log("authUser is ", authUser)
+    console.log("all usersa re ", allUsers)
 
     useEffect(() => {
         const fetchAllUsers = async () => {
@@ -38,12 +39,15 @@ const FollowSuggestionList = () => {
 
         }
         fetchAllUsers()
-    }, [])
+    }, [authUser])
     return (
         <Container maxWidth="sm">
             <List>
-                {allUsers.map((user: IUser) => (
-                    <FollowSuggestionItem key={user._id} followStatus='follow' user={user} />
+                {authUser && allUsers.map((user: IUser) => (
+                    <FollowSuggestionItem
+                        key={user._id} user={user}
+                        follows={authUser.following.includes(user._id)}
+                    />
                 ))}
             </List>
         </Container>
